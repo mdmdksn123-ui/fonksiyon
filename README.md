@@ -187,7 +187,7 @@
 <div class="container">
     
 
-    <p>Aşağıda verilen sürgüleri değiştirerek farklı değerlerin fonksiyonlarda çarpma ve bölme işlemlerinde oluşturduğu yapısal değişiklikleri inceleyiniz.</p>
+    <p>Aşağıda verilen sürgüleri değiştirerek farklı değerlerin fonksiyonlarda çarpma ve bölme işlemlerinin grafik temsillerinde oluşturduğu yapısal değişiklikleri inceleyiniz.</p>
 
     <div class="steps-box">
     
