@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -400,5 +400,3 @@ function drawGraph(a, b, c, m, n, k) {
 updateSliders();
 </script>
 
-</body>
-</html>
