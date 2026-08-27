@@ -205,8 +205,8 @@
             <div class="mode-group">
                 <strong>İşlem:</strong>
                 <button class="mode-btn active" id="btn-mode-all" onclick="setMode('all')">Tümü</button>
-                <button class="mode-btn" id="btn-mode-mul" onclick="setMode('mul')">Yalnız Çarpma</button>
-                <button class="mode-btn" id="btn-mode-div" onclick="setMode('div')">Yalnız Bölme</button>
+                <button class="mode-btn" id="btn-mode-mul" onclick="setMode('mul')">Çarpma</button>
+                <button class="mode-btn" id="btn-mode-div" onclick="setMode('div')">Bölme</button>
             </div>
         </div>
 
@@ -245,7 +245,7 @@
                     <strong>(f &middot; g)(x)</strong> = 4x - 2<br>
                     <strong><span class="fraction"><span class="numerator">f</span><span class="denominator">g</span></span>(x)</strong> = 2 / (2x - 1)
                 </div>
-                <div style="font-size:0.85em; color:#7f8c8d; text-align:center;" id="legend-text">Koordinat Sistemi (f(x): Mavi, g(x): Yeşil, Çarpım: Kırmızı, Bölüm: Mor)</div>
+                <div style="font-size:0.85em; color:#7f8c8d; text-align:center;" id="legend-text">(f(x): Mavi, g(x): Yeşil, Çarpım: Kırmızı, Bölüm: Mor)</div>
             </div>
             <div>
                 <svg id="graph" class="graph-container" viewBox="0 0 300 240"></svg>
