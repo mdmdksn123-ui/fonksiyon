@@ -1,8 +1,8 @@
-
+<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    
+    <title>Fonksiyonlarda Dört İşlem Etkinliği</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -36,10 +36,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        .page-num {
-            font-weight: bold;
-            color: #7f8c8d;
-        }
         h2 {
             color: #2c3e50;
             font-size: 1.15em;
@@ -48,17 +44,6 @@
         }
         p {
             margin-bottom: 15px;
-        }
-        .steps-box {
-            background: #fdfefe;
-            border-left: 4px solid #3498db;
-            padding: 15px 20px;
-            margin: 20px 0;
-            border-radius: 0 8px 8px 0;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
-        }
-        .step-item {
-            margin-bottom: 8px;
         }
         .math-expr {
             font-family: 'Cambria Math', Times, serif;
@@ -83,8 +68,6 @@
         .fraction .denominator {
             padding: 0 2px;
         }
-
-        /* Interactive Section Styling */
         .interactive-panel {
             background: #f1f4f8;
             border: 1px solid #d1d8e0;
@@ -100,58 +83,94 @@
             flex-wrap: wrap;
             justify-content: space-between;
         }
-        .presets-group, .mode-group {
+        .mode-group, .toggle-group {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             align-items: center;
             flex-wrap: wrap;
         }
-        .preset-btn, .mode-btn {
-            background: #3498db;
+        .mode-btn {
+            background: #7f8c8d;
             color: white;
             border: none;
-            padding: 6px 12px;
+            padding: 6px 10px;
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
-            transition: background 0.2s, opacity 0.2s;
-            font-size: 0.9em;
+            transition: background 0.2s;
+            font-size: 0.85em;
         }
-        .preset-btn:hover, .mode-btn:hover {
-            background: #2980b9;
-        }
-        .mode-btn {
-            background: #7f8c8d;
+        .mode-btn:hover {
+            background: #2c3e50;
         }
         .mode-btn.active {
-            background: #2c3e50;
+            background: #2980b9;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .toggle-label {
+            font-size: 0.85em;
+            font-weight: bold;
+            color: #34495e;
+            cursor: pointer;
+            background: #fff;
+            padding: 5px 8px;
+            border-radius: 5px;
+            border: 1px solid #dcdde1;
+        }
+        .sliders-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .slider-box {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e1e8ed;
+        }
+        .slider-box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .slider-box h4 {
+            margin: 0;
+            color: #2980b9;
+            font-size: 0.95em;
+        }
+        .type-select {
+            padding: 3px 6px;
+            font-size: 0.85em;
+            border-radius: 4px;
+            border: 1px solid #bdc3c7;
+            background: #fdfefe;
+            cursor: pointer;
         }
         .sliders-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 10px;
         }
         .slider-control {
-            background: #fff;
-            padding: 10px 15px;
-            border-radius: 8px;
+            background: #fafbfc;
+            padding: 8px 10px;
+            border-radius: 6px;
             border: 1px solid #e1e8ed;
         }
         .slider-control label {
             display: flex;
             justify-content: space-between;
             font-weight: bold;
-            font-size: 0.9em;
-            margin-bottom: 5px;
+            font-size: 0.8em;
+            margin-bottom: 3px;
             color: #34495e;
         }
         .slider-control input[type=range] {
             width: 100%;
             cursor: pointer;
         }
-        
         .workspace-display {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -162,135 +181,222 @@
             border: 1px solid #dcdde1;
         }
         .eq-display {
-            font-size: 0.95em;
+            font-size: 0.9em;
             background: #fafbfc;
-            padding: 10px;
+            padding: 12px;
             border-radius: 6px;
             border: 1px solid #e1e8ed;
             margin-bottom: 10px;
         }
+        .result-box {
+            background: #eaf2f8;
+            border: 1px dashed #2980b9;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            display: none; /* Başlangıçta gizli */
+            font-size: 0.9em;
+        }
+        .result-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85em;
+            margin-bottom: 5px;
+            transition: background 0.2s;
+        }
+        .result-btn:hover {
+            background: #219653;
+        }
         .graph-container {
             width: 100%;
-            height: 240px;
+            height: 250px;
             background: #fff;
             border: 1px solid #bdc3c7;
             position: relative;
-        }
-        .footer-note {
-            margin-top: 25px;
-            font-weight: 500;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    
+    <div class="header-top">
+        <span class="theme-title">Fonksiyonlarda Dört İşlem Etkinliği</span>
+    </div>
 
-    <p>Aşağıda verilen sürgüleri değiştirerek farklı değerlerin fonksiyonlarda çarpma ve bölme işlemlerinin grafik temsillerinde oluşturduğu yapısal değişiklikleri inceleyiniz.</p>
-
-    <div class="steps-box">
-    
-    
+    <p>Fonksiyon türlerini ve işlem modunu seçerek sürgüleri (-5 ile +5 arası) kullanabilir, işlemlerin cebirsel sonuçlarını ve grafik üzerindeki değişimini inceleyebilirsiniz.</p>
 
     <div class="interactive-panel">
         <div class="control-row">
-            <div class="presets-group">
-                <strong>Hazır Değer Setleri:</strong>
-                <button class="preset-btn" onclick="setPreset(0,0,2, 0,2,-1)">a</button>
-                <button class="preset-btn" onclick="setPreset(0,2,-3, 0,-1,5)">b</button>
-                <button class="preset-btn" onclick="setPreset(1,-1,2, 0,3,-4)">c</button>
-                <button class="preset-btn" onclick="setPreset(2,0,1, -1,1,0)">ç</button>
-            </div>
             <div class="mode-group">
-                <strong>İşlem:</strong>
-                <button class="mode-btn active" id="btn-mode-all" onclick="setMode('all')">Tümü</button>
-                <button class="mode-btn" id="btn-mode-mul" onclick="setMode('mul')">Çarpma</button>
-                <button class="mode-btn" id="btn-mode-div" onclick="setMode('div')">Bölme</button>
+                <strong>İşlem Modu:</strong>
+                <button class="mode-btn active" id="btn-mode-sum" onclick="setMode('sum')">f + g</button>
+                <button class="mode-btn" id="btn-mode-diff" onclick="setMode('diff')">f - g</button>
+                <button class="mode-btn" id="btn-mode-mul" onclick="setMode('mul')">f &middot; g</button>
+                <button class="mode-btn" id="btn-mode-div" onclick="setMode('div')">f / g</button>
+            </div>
+            <div class="toggle-group">
+                <label class="toggle-label"><input type="checkbox" id="show-f" checked onchange="updateSliders()"> f(x)</label>
+                <label class="toggle-label"><input type="checkbox" id="show-g" checked onchange="updateSliders()"> g(x)</label>
             </div>
         </div>
 
-        <div class="sliders-grid">
-            <div class="slider-control">
-                <label><span>a:</span> <span id="val-a">0</span></label>
-                <input type="range" id="slider-a" min="-3" max="3" step="1" value="0" oninput="updateSliders()">
+        <div class="sliders-section">
+            <!-- f(x) Box -->
+            <div class="slider-box">
+                <div class="slider-box-header">
+                    <h4>f(x) Fonksiyonu</h4>
+                    <select id="type-f" class="type-select" onchange="toggleFunctionType('f')">
+                        <option value="linear">Doğrusal</option>
+                        <option value="quadratic" selected>Karesel</option>
+                    </select>
+                </div>
+                <div class="sliders-grid" id="grid-f">
+                    <div class="slider-control" id="wrap-a-f">
+                        <label><span>a:</span> <span id="val-a">1</span></label>
+                        <input type="range" id="slider-a" min="-5" max="5" step="1" value="1" oninput="updateSliders()">
+                    </div>
+                    <div class="slider-control">
+                        <label><span>b:</span> <span id="val-b">0</span></label>
+                        <input type="range" id="slider-b" min="-5" max="5" step="1" value="0" oninput="updateSliders()">
+                    </div>
+                    <div class="slider-control" id="wrap-c-f">
+                        <label><span>c:</span> <span id="val-c">-1</span></label>
+                        <input type="range" id="slider-c" min="-5" max="5" step="1" value="-1" oninput="updateSliders()">
+                    </div>
+                </div>
             </div>
-            <div class="slider-control">
-                <label><span>b:</span> <span id="val-b">0</span></label>
-                <input type="range" id="slider-b" min="-3" max="3" step="1" value="0" oninput="updateSliders()">
-            </div>
-            <div class="slider-control">
-                <label><span>c:</span> <span id="val-c">2</span></label>
-                <input type="range" id="slider-c" min="-5" max="5" step="1" value="2" oninput="updateSliders()">
-            </div>
-            <div class="slider-control">
-                <label><span>m:</span> <span id="val-m">0</span></label>
-                <input type="range" id="slider-m" min="-3" max="3" step="1" value="0" oninput="updateSliders()">
-            </div>
-            <div class="slider-control">
-                <label><span>n:</span> <span id="val-n">2</span></label>
-                <input type="range" id="slider-n" min="-3" max="3" step="1" value="2" oninput="updateSliders()">
-            </div>
-            <div class="slider-control">
-                <label><span>k:</span> <span id="val-k">-1</span></label>
-                <input type="range" id="slider-k" min="-5" max="5" step="1" value="-1" oninput="updateSliders()">
+
+            <!-- g(x) Box -->
+            <div class="slider-box">
+                <div class="slider-box-header">
+                    <h4>g(x) Fonksiyonu</h4>
+                    <select id="type-g" class="type-select" onchange="toggleFunctionType('g')">
+                        <option value="linear" selected>Doğrusal</option>
+                        <option value="quadratic">Karesel</option>
+                    </select>
+                </div>
+                <div class="sliders-grid" id="grid-g">
+                    <div class="slider-control" id="wrap-m-g" style="display:none;">
+                        <label><span>m:</span> <span id="val-m">1</span></label>
+                        <input type="range" id="slider-m" min="-5" max="5" step="1" value="1" oninput="updateSliders()">
+                    </div>
+                    <div class="slider-control" id="wrap-n-g">
+                        <label><span>n:</span> <span id="val-n">1</span></label>
+                        <input type="range" id="slider-n" min="-5" max="5" step="1" value="1" oninput="updateSliders()">
+                    </div>
+                    <div class="slider-control" id="wrap-k-g">
+                        <label><span>k:</span> <span id="val-k">0</span></label>
+                        <input type="range" id="slider-k" min="-5" max="5" step="1" value="0" oninput="updateSliders()">
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="workspace-display">
             <div>
-                <div class="eq-display" id="equations-text">
-                    <strong>f(x)</strong> = 2<br>
-                    <strong>g(x)</strong> = 2x - 1<br>
-                    <strong>(f &middot; g)(x)</strong> = 4x - 2<br>
-                    <strong><span class="fraction"><span class="numerator">f</span><span class="denominator">g</span></span>(x)</strong> = 2 / (2x - 1)
+                <div class="eq-display" id="equations-text"></div>
+                <button class="result-btn" id="toggle-result-btn" onclick="toggleResult()">Sonucu Göster</button>
+                <div class="result-box" id="result-content"></div>
+
+                <div style="font-size:0.85em; color:#7f8c8d; line-height: 1.5; margin-top: 15px;" id="legend-text">
+                    <strong>Renkler:</strong><br>
+                    <span style="color:#2980b9;">■</span> f(x) (Mavi)<br>
+                    <span style="color:#27ae60;">■</span> g(x) (Yeşil)<br>
+                    <span id="op-legend-container"><span style="color:#d35400;" id="op-square">■</span> <span id="op-text">(f + g)(x) (Turuncu)</span></span>
                 </div>
-                <div style="font-size:0.85em; color:#7f8c8d; text-align:center;" id="legend-text">(f(x): Mavi, g(x): Yeşil, Çarpım: Kırmızı, Bölüm: Mor)</div>
             </div>
             <div>
-                <svg id="graph" class="graph-container" viewBox="0 0 300 240"></svg>
+                <svg id="graph" class="graph-container" viewBox="0 0 300 250"></svg>
             </div>
         </div>
     </div>
-
 </div>
 
 <script>
-let currentMode = 'all'; // 'all', 'mul', 'div'
-
-function setPreset(a, b, c, m, n, k) {
-    document.getElementById('slider-a').value = a;
-    document.getElementById('slider-b').value = b;
-    document.getElementById('slider-c').value = c;
-    document.getElementById('slider-m').value = m;
-    document.getElementById('slider-n').value = n;
-    document.getElementById('slider-k').value = k;
-    updateSliders();
-}
+let currentMode = 'sum'; // 'sum', 'diff', 'mul', 'div'
+let isResultVisible = false;
 
 function setMode(mode) {
     currentMode = mode;
     document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
     document.getElementById('btn-mode-' + mode).classList.add('active');
     
-    // Update legend description based on mode
-    const legend = document.getElementById('legend-text');
-    if (mode === 'all') {
-        legend.innerText = "Koordinat Sistemi (f(x): Mavi, g(x): Yeşil, Çarpım: Kırmızı, Bölüm: Mor)";
-    } else if (mode === 'mul') {
-        legend.innerText = "Koordinat Sistemi (f(x): Mavi, g(x): Yeşil, Çarpım: Kırmızı)";
-    } else if (mode === 'div') {
-        legend.innerText = "Koordinat Sistemi (f(x): Mavi, g(x): Yeşil, Bölüm: Mor)";
-    }
+    const opSquare = document.getElementById('op-square');
+    const opText = document.getElementById('op-text');
     
+    if (mode === 'sum') {
+        opSquare.style.color = '#d35400';
+        opText.innerText = '(f + g)(x) (Turuncu)';
+    } else if (mode === 'diff') {
+        opSquare.style.color = '#c0392b';
+        opText.innerText = '(f - g)(x) (Kırmızı)';
+    } else if (mode === 'mul') {
+        opSquare.style.color = '#795548';
+        opText.innerText = '(f · g)(x) (Kahverengi)';
+    } else if (mode === 'div') {
+        opSquare.style.color = '#8e44ad';
+        opText.innerText = '(f / g)(x) (Mor Kesikli)';
+    }
+
+    updateSliders();
+}
+
+function toggleResult() {
+    isResultVisible = !isResultVisible;
+    const resBox = document.getElementById('result-content');
+    const btn = document.getElementById('toggle-result-btn');
+    
+    if (isResultVisible) {
+        resBox.style.display = 'block';
+        btn.innerText = 'Sonucu Gizle';
+        btn.style.background = '#c0392b';
+    } else {
+        resBox.style.display = 'none';
+        btn.innerText = 'Sonucu Göster';
+        btn.style.background = '#27ae60';
+    }
+}
+
+function toggleFunctionType(target) {
+    const type = document.getElementById('type-' + target).value;
+    
+    if (target === 'f') {
+        const wrapA = document.getElementById('wrap-a-f');
+        if (type === 'linear') {
+            wrapA.style.display = 'none';
+            document.getElementById('slider-a').value = 0;
+        } else {
+            wrapA.style.display = 'block';
+            document.getElementById('slider-a').value = 1;
+        }
+    } else {
+        const wrapM = document.getElementById('wrap-m-g');
+        if (type === 'linear') {
+            wrapM.style.display = 'none';
+            document.getElementById('slider-m').value = 0;
+        } else {
+            wrapM.style.display = 'block';
+            document.getElementById('slider-m').value = 1;
+        }
+    }
     updateSliders();
 }
 
 function updateSliders() {
-    const a = parseFloat(document.getElementById('slider-a').value);
+    const typeF = document.getElementById('type-f').value;
+    const typeG = document.getElementById('type-g').value;
+
+    const a = (typeF === 'quadratic') ? parseFloat(document.getElementById('slider-a').value) : 0;
     const b = parseFloat(document.getElementById('slider-b').value);
     const c = parseFloat(document.getElementById('slider-c').value);
-    const m = parseFloat(document.getElementById('slider-m').value);
+
+    const m = (typeG === 'quadratic') ? parseFloat(document.getElementById('slider-m').value) : 0;
     const n = parseFloat(document.getElementById('slider-n').value);
     const k = parseFloat(document.getElementById('slider-k').value);
 
@@ -301,102 +407,166 @@ function updateSliders() {
     document.getElementById('val-n').innerText = n;
     document.getElementById('val-k').innerText = k;
 
-    // Build Equation Strings
-    let fStr = formatQuad(a, b, c);
-    let gStr = formatQuad(m, n, k);
+    let fStr = formatExpression(typeF, a, b, c);
+    let gStr = formatExpression(typeG, m, n, k);
 
     let eqHTML = `
         <strong>f(x)</strong> = ${fStr}<br>
-        <strong>g(x)</strong> = ${gStr}<br>
+        <strong>g(x)</strong> = ${gStr}
     `;
 
-    if (currentMode === 'all' || currentMode === 'mul') {
-        eqHTML += `<strong>(f &middot; g)(x)</strong> = (${fStr}) &middot; (${gStr})<br>`;
-    }
-    if (currentMode === 'all' || currentMode === 'div') {
-        eqHTML += `<strong><span class="fraction"><span class="numerator">f</span><span class="denominator">g</span></span>(x)</strong> = <span class="fraction"><span class="numerator">(${fStr})</span><span class="denominator">(${gStr})</span></span>`;
+    let resHTML = "";
+    if (currentMode === 'sum') {
+        let ra = a + m;
+        let rb = b + n;
+        let rc = c + k;
+        let resExpr = formatExpression((ra !== 0 ? 'quadratic' : 'linear'), ra, rb, rc);
+        resHTML = `<strong>(f + g)(x)</strong> = (${fStr}) + (${gStr})<br>= <span style="color:#d35400; font-weight:bold;">${resExpr}</span>`;
+    } else if (currentMode === 'diff') {
+        let ra = a - m;
+        let rb = b - n;
+        let rc = c - k;
+        let resExpr = formatExpression((ra !== 0 ? 'quadratic' : 'linear'), ra, rb, rc);
+        resHTML = `<strong>(f - g)(x)</strong> = (${fStr}) - (${gStr})<br>= <span style="color:#c0392b; font-weight:bold;">${resExpr}</span>`;
+    } else if (currentMode === 'mul') {
+        let resExpr = multiplyExpressions(typeF, a, b, c, typeG, m, n, k);
+        resHTML = `<strong>(f &middot; g)(x)</strong> = (${fStr}) &middot; (${gStr})<br>= <span style="color:#795548; font-weight:bold;">${resExpr}</span>`;
+    } else if (currentMode === 'div') {
+        let simplifiedDiv = getSimplifiedDivision(typeF, a, b, c, typeG, m, n, k, fStr, gStr);
+        resHTML = `<strong><span class="fraction"><span class="numerator">f</span><span class="denominator">g</span></span>(x)</strong> = <span class="fraction"><span class="numerator">(${fStr})</span><span class="denominator">(${gStr})</span></span><br>= <span style="color:#8e44ad; font-weight:bold;">${simplifiedDiv}</span>`;
     }
 
     document.getElementById('equations-text').innerHTML = eqHTML;
+    document.getElementById('result-content').innerHTML = resHTML;
 
     drawGraph(a, b, c, m, n, k);
 }
 
-function formatQuad(a, b, c) {
+function formatExpression(type, a, b, c) {
     let parts = [];
-    if (a !== 0) parts.push((a === 1 ? '' : (a === -1 ? '-' : a)) + 'x²');
-    if (b !== 0) parts.push((parts.length > 0 && b > 0 ? ' + ' : (b < 0 ? ' - ' : '')) + Math.abs(b) + 'x');
-    if (c !== 0 || parts.length === 0) {
-        if (parts.length > 0) {
-            parts.push(c > 0 ? ' + ' + c : ' - ' + Math.abs(c));
-        } else {
-            parts.push(c);
+    if (type === 'quadratic') {
+        if (a !== 0) parts.push((a === 1 ? '' : (a === -1 ? '-' : a)) + 'x²');
+        if (b !== 0) parts.push((parts.length > 0 && b > 0 ? ' + ' : (b < 0 ? ' - ' : '')) + Math.abs(b) + 'x');
+        if (c !== 0 || parts.length === 0) {
+            if (parts.length > 0) {
+                parts.push(c > 0 ? ' + ' + c : ' - ' + Math.abs(c));
+            } else {
+                parts.push(c);
+            }
+        }
+    } else {
+        if (b !== 0) parts.push((b === 1 ? '' : (b === -1 ? '-' : b)) + 'x');
+        if (c !== 0 || parts.length === 0) {
+            if (parts.length > 0) {
+                parts.push(c > 0 ? ' + ' + c : ' - ' + Math.abs(c));
+            } else {
+                parts.push(c);
+            }
         }
     }
     return parts.join('');
+}
+
+function multiplyExpressions(t1, a1, b1, c1, t2, a2, b2, c2) {
+    let deg4 = a1 * a2;
+    let deg3 = a1 * b2 + b1 * a2;
+    let deg2 = a1 * c2 + b1 * b2 + c1 * a2;
+    let deg1 = b1 * c2 + c1 * b2;
+    let deg0 = c1 * c2;
+
+    let parts = [];
+    if (deg4 !== 0) parts.push((deg4 === 1 ? '' : (deg4 === -1 ? '-' : deg4)) + 'x⁴');
+    if (deg3 !== 0) parts.push((parts.length > 0 && deg3 > 0 ? ' + ' : (deg3 < 0 ? ' - ' : '')) + (Math.abs(deg3) === 1 ? '' : Math.abs(deg3)) + 'x³');
+    if (deg2 !== 0) parts.push((parts.length > 0 && deg2 > 0 ? ' + ' : (deg2 < 0 ? ' - ' : '')) + (Math.abs(deg2) === 1 ? '' : Math.abs(deg2)) + 'x²');
+    if (deg1 !== 0) parts.push((parts.length > 0 && deg1 > 0 ? ' + ' : (deg1 < 0 ? ' - ' : '')) + Math.abs(deg1) + 'x');
+    if (deg0 !== 0 || parts.length === 0) {
+        if (parts.length > 0) {
+            parts.push(deg0 > 0 ? ' + ' + deg0 : ' - ' + Math.abs(deg0));
+        } else {
+            parts.push(deg0);
+        }
+    }
+    return parts.join('');
+}
+
+function getSimplifiedDivision(t1, a1, b1, c1, t2, a2, b2, c2, fStr, gStr) {
+    if (t1 === 'quadratic' && a1 === 1 && b1 === 0 && t2 === 'linear' && a2 === 0) {
+        let r = Math.round(Math.sqrt(-c1));
+        if (r * r === -c1 && c1 < 0) {
+            if (b2 === 1 && c2 === r) {
+                return formatExpression('linear', 0, 1, -r);
+            } else if (b2 === 1 && c2 === -r) {
+                return formatExpression('linear', 0, 1, r);
+            }
+        }
+    }
+
+    return `<span class="fraction"><span class="numerator">${fStr}</span><span class="denominator">${gStr}</span></span>`;
 }
 
 function drawGraph(a, b, c, m, n, k) {
     const svg = document.getElementById('graph');
     let svgContent = '';
 
-    // Grid and Axes
     svgContent += `<defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="#f1f2f6" stroke-width="1"/></pattern></defs>`;
-    svgContent += `<rect width="300" height="240" fill="url(#grid)" />`;
+    svgContent += `<rect width="300" height="250" fill="url(#grid)" />`;
     
     const ox = 150;
-    const oy = 120;
+    const oy = 125;
     const scale = 20;
 
-    // Axis lines
     svgContent += `<line x1="0" y1="${oy}" x2="300" y2="${oy}" stroke="#2c3e50" stroke-width="1.5"/>`;
-    svgContent += `<line x1="${ox}" y1="0" x2="${ox}" y2="240" stroke="#2c3e50" stroke-width="1.5"/>`;
+    svgContent += `<line x1="${ox}" y1="0" x2="${ox}" y2="250" stroke="#2c3e50" stroke-width="1.5"/>`;
 
-    let fPoints = [];
-    let gPoints = [];
-    let prodPoints = [];
-    let divPoints = [];
+    let fPoints = [], gPoints = [], resPoints = [];
+    const showF = document.getElementById('show-f').checked;
+    const showG = document.getElementById('show-g').checked;
+
+    const typeF = document.getElementById('type-f').value;
+    const typeG = document.getElementById('type-g').value;
 
     for (let px = 0; px <= 300; px += 2) {
         let x = (px - ox) / scale;
-        let fx = a * x * x + b * x + c;
-        let gx = m * x * x + n * x + k;
+        
+        let fx = (typeF === 'quadratic') ? (a * x * x + b * x + c) : (b * x + c);
+        let gx = (typeG === 'quadratic') ? (m * x * x + n * x + k) : (n * x + k);
 
         let pyF = oy - fx * scale;
         let pyG = oy - gx * scale;
 
-        if (pyF >= 0 && pyF <= 240) fPoints.push(`${px},${pyF}`);
-        if (pyG >= 0 && pyG <= 240) gPoints.push(`${px},${pyG}`);
+        if (showF && pyF >= -50 && pyF <= 300) fPoints.push(`${px},${pyF}`);
+        if (showG && pyG >= -50 && pyG <= 300) gPoints.push(`${px},${pyG}`);
 
-        if (currentMode === 'all' || currentMode === 'mul') {
-            let prod = fx * gx;
-            let pyProd = oy - prod * scale;
-            if (pyProd >= -100 && pyProd <= 340) prodPoints.push(`${px},${pyProd}`);
-        }
+        let res;
+        if (currentMode === 'sum') res = fx + gx;
+        else if (currentMode === 'diff') res = fx - gx;
+        else if (currentMode === 'mul') res = fx * gx;
+        else if (currentMode === 'div') res = (Math.abs(gx) > 0.05) ? (fx / gx) : NaN;
 
-        if (currentMode === 'all' || currentMode === 'div') {
-            if (Math.abs(gx) > 0.05) {
-                let div = fx / gx;
-                let pyDiv = oy - div * scale;
-                if (pyDiv >= 0 && pyDiv <= 240) divPoints.push(`${px},${pyDiv}`);
-            }
+        let pyRes = oy - res * scale;
+        if (!isNaN(pyRes) && pyRes >= -50 && pyRes <= 300) {
+            resPoints.push(`${px},${pyRes}`);
         }
     }
 
-    if (fPoints.length > 1) svgContent += `<polyline fill="none" stroke="#2980b9" stroke-width="2" points="${fPoints.join(' ')}"/>`;
-    if (gPoints.length > 1) svgContent += `<polyline fill="none" stroke="#27ae60" stroke-width="2" points="${gPoints.join(' ')}"/>`;
+    if (showF && fPoints.length > 1) svgContent += `<polyline fill="none" stroke="#2980b9" stroke-width="2" points="${fPoints.join(' ')}"/>`;
+    if (showG && gPoints.length > 1) svgContent += `<polyline fill="none" stroke="#27ae60" stroke-width="2" points="${gPoints.join(' ')}"/>`;
     
-    if ((currentMode === 'all' || currentMode === 'mul') && prodPoints.length > 1) {
-        svgContent += `<polyline fill="none" stroke="#e74c3c" stroke-width="2" points="${prodPoints.join(' ')}"/>`;
-    }
-    if ((currentMode === 'all' || currentMode === 'div') && divPoints.length > 1) {
-        svgContent += `<polyline fill="none" stroke="#8e44ad" stroke-width="2" stroke-dasharray="4" points="${divPoints.join(' ')}"/>`;
+    if (resPoints.length > 1) {
+        let resColor = '#d35400';
+        if (currentMode === 'diff') resColor = '#c0392b';
+        else if (currentMode === 'mul') resColor = '#795548';
+        else if (currentMode === 'div') resColor = '#8e44ad';
+
+        let dashAttr = (currentMode === 'div') ? 'stroke-dasharray="4"' : '';
+        svgContent += `<polyline fill="none" stroke="${resColor}" stroke-width="2.5" ${dashAttr} points="${resPoints.join(' ')}"/>`;
     }
 
     svg.innerHTML = svgContent;
 }
 
-// Initial draw
 updateSliders();
 </script>
 
+</body>
+</html>
